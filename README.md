@@ -9,8 +9,10 @@ FILES
 
 STEP 1:
 Run register.py file to set up a username and password
+
 STEP 2:
 Run server.py to start the Chat System server (run it only once)
+
 STEP 3:
 Run client.py to log in to system.  You can run this file multiple times for different users 
 
