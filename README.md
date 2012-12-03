@@ -1,6 +1,6 @@
-Computer Security Project: Secure Chat System
 Author: Isatou Sanneh
 Email: isanneh@ccny.cuny.edu
+Computer Security Project: Secure Chat System
 ==================
 
 
