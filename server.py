@@ -94,13 +94,9 @@ def send_msg_content (client_socket):
 	if(msg_params[2] >= len(msg_params[0])):
 		ack[str(client_socket)] = 2
 	else:
-		#messages[str(sock)]=[msg, 0, current_end_index, len(msg)]
-		#messages[str(client_socket)]=[msg_params[0], (msg_params[1] + 1), msg_params[2], (msg_params[2] ), current_end_index]
 		messages[str(client_socket)]=[msg_params[0], msg_params[2], current_end_index]
-		#messages[str(client_socket)]=[msg_params[0], (msg_params[1] + 1), msg_params[2], (msg_params[2] ), current_end_index]
 	msg=msg_params[0]
 	segment=msg[msg_params[1]:msg_params[2]]
-	print "server", 
 	sock.send (encryption(segment, rnd[0], rnd[1], key))
 
 
@@ -138,15 +134,11 @@ def send_msg_header (client_socket, msg, user):
 #this function sends size of the next incoming message in the queue to clients except for client that sent the message
 #it is also used to send the size of announcements to clients
 def queue_send_msg_header (client_socket, msg, user, socket_current):
-	print "queue"
 	if sock != server_socket :
 		rnd=session_keys[str(socket_current)]
 		key=state[str(usernames[str(socket_current)])]
 		sender=usernames[str(client_socket)]
-
 		remaining=queue[str(sock)]
-		print "next2", next, len(queue[str(sock)])
-		#remaining=next
 		del remaining[0]
 		queue[str(sock)]=remaining
 
@@ -248,12 +240,6 @@ while True:
 					sock.send(pickle.dumps(1))
 					if(len(queue[str(sock)])  != 0):
 						next=queue[str(sock)]
-						#remaining=queue[str(sock)]
-						print "next", next, len(queue[str(sock)])
-						#remaining=next
-						'''del remaining[0]
-						queue[str(sock)]=remaining'''
-
 						queue_send_msg_header(next[0][0], next[0][1], next[0][2], sock)
 					send_msg_header(sock, txt, 'client')
 				else:
@@ -442,15 +428,9 @@ while True:
 				rnd=session_keys[str(sock)]
 				decrypted_data=decryption(data, rnd[0], rnd[1], key) #size of file to be sent
 				data=decrypted_data
-				'''if(decrypted_data == 'quit'): #client wants to logout
-					status[str(sock)]='disconnected'
-					sock.send('1')'''
-				if(decrypted_data == 'busy'): #client wants to logout
+				if(decrypted_data == 'busy'): 
 					status[str(sock)]='busy' 
-				'''else:	#client wants to send a message
-					status[str(sock)]='sending'
-					message_size[str(sock)]=int(decrypted_data)
-					sock.send (pickle.dumps(1))'''
+
 
 
 server_socket.close()
