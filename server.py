@@ -10,8 +10,6 @@ from Crypto import Random
 from Crypto.Random import random as R
 import string
 import sys
-#from subprocess import *
-#import cPickle as pcl
 import hashlib as H
 import time
 
@@ -253,9 +251,6 @@ while True:
 				ack[str(sock)] == 1
 				if(len(queue[str(sock)])  != 0):
 					next=queue[str(sock)]
-					'''remaining=next
-					del remaining[0]
-					queue[str(sock)]=remaining'''
 					queue_send_msg_header(next[0][0], next[0][1], next[0][2], sock)
 
 			elif(status[str(sock)] == 'user' and ack[str(sock)]==0): #server requests for username
