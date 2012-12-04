@@ -11,6 +11,8 @@ import string
 import pickle
 import time
 import sys
+import getpass 
+
 
 port=12345
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -71,6 +73,8 @@ decrypted_data=decryption(data_rcvd[1], session_keys[0][0], session_keys[0][1], 
 flag=decryption(data_rcvd[2], session_keys[0][0], session_keys[0][1], session_keys[0][2])
 print sender, " says:" , decrypted_data
 
+request='username'
+
 
 ack=0
 
@@ -101,7 +105,6 @@ while(int(flag) == 1):
 	#print "Press ctrl once to type:"
 
 	try:
-		#client_socket.settimeout(10)
 
 		if(ack == 0):	#client receives private key from server
 
@@ -134,12 +137,19 @@ while(int(flag) == 1):
 
 	except KeyboardInterrupt:	#client can send message to server
 
-
+			if(request == 'username'):
 			#data is sent if client is not idle for 2 mins, otherwise, client is disconnected
-			time_thread = TimeThread(3)
-			time_thread.start()	
-			data = raw_input ( "Press Enter to send:" )
-			response = 1 
+				time_thread = TimeThread(3)
+				time_thread.start()	
+				data = raw_input ( "Press Enter to send:" )
+				response = 1 
+				request = 'password'
+			elif(request == 'password'): 
+				time_thread = TimeThread(3)
+				time_thread.start()
+				data=getpass.getpass("Press Enter to send:")	
+				response = 1 
+				request = 'username'
 	
 			client_socket.send ((encryption(data, session_keys[0][0], session_keys[0][1], session_keys[0][2])))
 
